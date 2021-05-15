@@ -1,5 +1,6 @@
 package birintsev.artplace.services;
 
+import birintsev.artplace.dto.PublishRequest;
 import birintsev.artplace.model.db.Publication;
 import birintsev.artplace.model.db.User;
 import org.springframework.data.domain.PageRequest;
@@ -29,4 +30,19 @@ public interface PublicationService {
     }
 
     Slice<Publication> findForUser(User user, Pageable pageable);
+
+    /**
+     * Creates a publication on behalf of passed {@link User publisher}
+     *
+     * @param     publisher      a user who creates the publication
+     * @param     publishRequest a publication details container
+     *
+     * @return                   created publication
+     *
+     * @exception birintsev.artplace.services.exceptions.UnauthorizedOperationException
+     *                           if publisher is not the owner of the public
+     *                           specified by the
+     *                           {@link PublishRequest#getParentPublicId() id}
+     * */
+    Publication publish(User publisher, PublishRequest publishRequest);
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service("DefaultPublicService")
 @AllArgsConstructor
@@ -22,6 +24,11 @@ public class DefaultPublicService implements PublicService {
             subscriber,
             defaultSubscriptionsFirstPage()
         );
+    }
+
+    @Override
+    public Optional<Public> findById(UUID publicId) {
+        return publicRepo.findById(publicId);
     }
 
     /**

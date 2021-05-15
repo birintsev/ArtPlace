@@ -4,6 +4,8 @@ import birintsev.artplace.model.db.Public;
 import birintsev.artplace.model.db.User;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * This is a <strong>business logic</strong> providing interface.
@@ -17,4 +19,7 @@ public interface PublicService {
      *         {@link birintsev.artplace.model.db.SubscriptionTariff tariff})
      * */
     Page<Public> userSubscriptions(User subscriber);
+
+    // TODO: javadoc
+    Optional<Public> findById(UUID publicId);
 }

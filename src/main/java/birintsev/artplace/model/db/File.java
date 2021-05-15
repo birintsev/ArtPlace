@@ -1,7 +1,8 @@
 package birintsev.artplace.model.db;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.persistence.Column;
+import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,6 +12,8 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "ap_files")
+@AllArgsConstructor
+@NoArgsConstructor
 public class File {
 
     @Id
