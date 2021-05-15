@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create publication</title>
+    <!--TODO: style the page with CSS-->
+</head>
+    <body>
+    <!--/*@thymesVar id="publishRequest" type="birintsev.artplace.dto.PublishRequestImpl"*/-->
+        <form id="create-publcation-form" th:object="${publishRequest}" th:action="@{/publish}" method="post">
+            <h1 th:text="'Create publication in ' + ${parentPublic.name}"></h1>
+            <!--/*@thymesVar id="parentPublic" type="birintsev.artplace.dto.PublicDTO"*/-->
+            <input type="hidden" id="parentPublicId" name="parentPublicId" th:value="${parentPublic.id}" th:field="*{parentPublicId}">
+            <label for="title">Publication title</label><input type="text" id="title" name="title" th:field="*{title}" placeholder="Publication title">
+            <label for="publicationText">Publication text</label><textarea id="publicationText" name="publicationText" th:field="*{publicationText}" placeholder="Publication text">
+
+            </textarea>
+            <label for="attachedFiles">Attachments</label><input id="attachedFiles" name="attachedFiles" th:field="*{attachedFiles}" type="file" multiple/>
+            <button type="submit" id="createPublicationButton'">Create publication</button>
+        </form>
+    </body>
+</html>

@@ -1,6 +1,8 @@
 package birintsev.artplace.model.db;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +18,8 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "ap_publications")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Publication {
 
     @Id
