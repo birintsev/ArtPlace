@@ -1,5 +1,6 @@
 package birintsev.artplace.model.db.repo;
 
+import birintsev.artplace.model.db.Public;
 import birintsev.artplace.model.db.Publication;
 import birintsev.artplace.model.db.User;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,16 @@ extends JpaRepository<Publication, UUID> {
         User subscriber,
         Pageable pageable
     );
+
+    Slice<Publication> findAllByParentPublic(
+        Public parentPublic,
+        Pageable pageable
+    );
+
+    @Query(
+        value = "select count(p) "
+            + "from Publication p "
+            + "where p.parentPublic = :parentPublic"
+    )
+    int countAllByParentPublic(Public parentPublic);
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--/*@thymesVar id="public" type="birintsev.artplace.dto.PublicDTO"*/-->
+    <title th:text="${public.name}"></title>
+    <link th:replace="fragments/libs :: jquery">
+</head>
+    <body>
+        <div id="publicInfo">
+            <h1 th:text="${public.name}"></h1>
+            <!--/*@thymesVar id="subscribersAmount" type="java.lang.Integer"*/-->
+            <p th:text="'Subsribed by ' + ${subscribersAmount} + ' user' + (${subscribersAmount} > 1 ? 's' : '')"></p>
+            <!--/*@thymesVar id="public" type="birintsev.artplace.dto.PublicDTO"*/-->
+            <p th:text="'Owner: ' + ${public.owner.name}"></p>
+            <!--/*@thymesVar id="publicationsAmount" type="java.lang.Integer"*/-->
+            <p th:text="'Publications: ' + ${publicationsAmount}"></p>
+        </div>
+
+        <!--/*@thymesVar id="publications" type="java.lang.Iterable"*/-->
+        <div th:replace="fragments/publicationsLine :: publicationsLine (publications = ${publications}, publicationsLineContainerId = 'publicationsLine', nextPageUrl = '/public/page', currentPage = 0, pageSize = 10)">
+            <!--TODO: move hardcoded publicationsPageSize value to session-level attribute -->
+        </div>
+    </body>
+</html>

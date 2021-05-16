@@ -22,4 +22,9 @@ public interface PublicService {
 
     // TODO: javadoc
     Optional<Public> findById(UUID publicId);
+
+    /**
+     * TODO: javadoc
+     * */
+    int getTotalSubscribersAmount(Public aPublic);
 }

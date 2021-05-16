@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publications fragment</title>
+</head>
+    <body>
+
+        <!--Publication line fragment-->
+        <div id="publicationsLine" th:fragment="publicationsLine (publications, publicationsLineContainerId, nextPageUrl, currentPage, pageSize)">
+            <!--/*@thymesVar id="publications" type="java.lang.Iterable"*/-->
+            <!--/*@thymesVar id="publication" type="birintsev.artplace.dto.PublicationDTO"*/-->
+            <div th:id="${publicationsLineContainerId}" class="publicationsLineItemContainer" th:each="publication : ${publications}">
+                <h5><a th:href="@{/public/{publicId}(publicId=${publication.parentPublic.id})}" th:text="${publication.parentPublic.name}"></a></h5>
+                <h6 th:text="${publication.title}"></h6>
+                <p th:text="${publication.publicationText}"></p>
+                <div class="publicationFilesContainer">
+                    <div class="publicationFile" th:each="file : ${publication.attachments}">
+                        <a th:href="@{/file/{id}(id=${file.id})}" th:text="${file.name}"></a>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/publicationsLine :: publicationsLineAJAXScroll(${publicationsLineContainerId}, ${nextPageUrl}, ${currentPage}, ${pageSize})"></div>
+        </div>
+
+        <!--Script fragment-->
+        <script th:inline="javascript" id="publicationsLineAJAXScroll" th:fragment="publicationsLineAJAXScroll (publicationsLineContainerId, nextPageUrl, currentPage, pageSize)">
+            let nextPageUrl = [[${nextPageUrl}]];
+            let currentPage = [[${currentPage}]];
+            let pageSize = [[${pageSize}]]
+            let publicationsLineContainerId = [[${publicationsLineContainerId}]];
+
+
+            $(document).ready(
+                function () {
+                    $('#publicationsLine').scroll(
+                        function () {
+                            let lastPublication = $(`#${publicationsLineContainerId} > div:last-of-type`);
+                            if (isElementInView(lastPublication, false)) {
+                                let newPage = loadNewPublicationsPage();
+                                appendNewPublicationPage(newPage);
+                            }
+                        }
+                    );
+                }
+            );
+
+            function isElementInView(element, fullyInView) {
+                let pageTop = $(window).scrollTop();
+                let pageBottom = pageTop + $(window).height();
+                let elementTop = $(element).offset().top;
+                let elementBottom = elementTop + $(element).height();
+
+                if (fullyInView === true) {
+                    return ((pageTop < elementTop) && (pageBottom > elementBottom));
+                } else {
+                    return (
+                        (elementTop < pageBottom && elementTop > pageTop)
+                        || (elementBottom < pageBottom && elementBottom > pageTop)
+                    );
+                }
+            }
+
+            function loadNewPublicationsPage() {
+                let nextPagePublications;
+                $.ajax(
+                    nextPageUrl,
+                    {
+                        method: 'get',
+                        async: false,
+                        data: {
+                            page: currentPage + 1,
+                            size: pageSize,
+                            sort: 'publicationDate,desc'
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            currentPage++;
+                            nextPagePublications = data;
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(
+                                'Error on requesting next publication page: '
+                                + errorThrown
+                                + '. Status: '
+                                + textStatus
+                            );
+                        }
+                    }
+                );
+                return nextPagePublications;
+            }
+
+            function appendNewPublicationPage(newPage) {
+                let feedLine = $(`#${publicationsLineContainerId}`);
+                newPage.forEach(publication => {
+                    feedLine.append(
+                        `<div class="publicationsLineItemContainer" id="${publication.id}">
+                    <h5>${publication.parentPublic.name}</h5>
+                    <h6>${publication.title}</h6>
+                    <p>${publication.publicationText}</p>
+                </div>`
+                    );
+                    let newFeedLineContainer = $(`#${publication.id}`);
+                    publication.attachments.forEach(
+                        attachment => {
+                            newFeedLineContainer.append(
+                                `<div class="publicationFilesContainer">
+                            <div class="publicationFile">
+                                <a href="/file/${attachment.id}">${attachment.name}</a>
+                            </div>
+                        </div>`
+                            );
+                        }
+                    );
+                });
+            }
+        </script>
+    </body>
+</html>

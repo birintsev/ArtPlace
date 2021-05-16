@@ -31,6 +31,11 @@ public class DefaultPublicService implements PublicService {
         return publicRepo.findById(publicId);
     }
 
+    @Override
+    public int getTotalSubscribersAmount(Public aPublic) {
+        return publicRepo.getTotalSubscribersCount(aPublic);
+    }
+
     /**
      * A default {@link Pageable} for querying the first page
      * of a user subscriptions.
