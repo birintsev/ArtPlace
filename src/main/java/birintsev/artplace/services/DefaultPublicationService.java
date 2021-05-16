@@ -2,6 +2,7 @@ package birintsev.artplace.services;
 
 import birintsev.artplace.converters.PublicationPreparer;
 import birintsev.artplace.dto.PublishRequest;
+import birintsev.artplace.model.db.Public;
 import birintsev.artplace.model.db.Publication;
 import birintsev.artplace.model.db.User;
 import birintsev.artplace.model.db.repo.PublicRepo;
@@ -60,5 +61,18 @@ public class DefaultPublicationService implements PublicationService {
                 Publication.class
             )
         );
+    }
+
+    @Override
+    public Slice<Publication> findByPublic(
+        Public parentPublic,
+        Pageable pageable
+    ) {
+        return publicationRepo.findAllByParentPublic(parentPublic, pageable);
+    }
+
+    @Override
+    public int getTotalPublicationsCount(Public aPublic) {
+        return publicationRepo.countAllByParentPublic(aPublic);
     }
 }

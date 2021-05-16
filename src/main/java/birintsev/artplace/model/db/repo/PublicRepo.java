@@ -52,4 +52,22 @@ extends JpaRepository<Public, UUID> {
             + "where p.owner = :user and p.id = :publicId"
     )
     boolean isOwner(User user, UUID publicId);
+
+    /**
+     * TODO: javadoc
+     * */
+    @Query(
+        value =
+            "select "
+            + "     count(distinct u) "
+            + "from"
+            + "     Public p "
+            + "     left join PublicSubscription ps "
+            + "         on ps.subscribedPublic = p "
+            + "     left join User u "
+            + "         on ps.user = u "
+            + "where"
+            + "     p = :aPublic"
+    )
+    int getTotalSubscribersCount(Public aPublic);
 }
