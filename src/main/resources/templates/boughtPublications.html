@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My bought publications</title>
+    <!--TODO: review bought publications page design-->
+    <!--TODO: style with css-->
+    <link th:replace="fragments/libs :: jquery">
+</head>
+    <body>
+        <!--/*@thymesVar id="publications" type="java.lang.Iterable"*/-->
+        <div th:replace="fragments/publicationsLine :: publicationsLine (publications = ${publications}, publicationsLineContainerId = 'publicationsLine', nextPageUrl = '/bought/page', currentPage = 0, pageSize = 10)">
+            <!--TODO: move hardcoded publicationsPageSize value to session-level attribute -->
+        </div>
+    </body>
+</html>

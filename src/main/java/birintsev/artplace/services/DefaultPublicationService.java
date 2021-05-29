@@ -111,6 +111,14 @@ public class DefaultPublicationService implements PublicationService {
         );
     }
 
+    @Override
+    public Slice<Publication> findPermanentPublicationsByUser(
+        User subscriber,
+        Pageable pageable
+    ) {
+        return permanentPublicationRepo.findAllByUser(subscriber, pageable);
+    }
+
     private boolean isPaid(Publication publication) {
         return BigInteger.ZERO.compareTo(
             publication.getTariff().getPrice()
