@@ -15,6 +15,8 @@
             <p th:text="'Owner: ' + ${public.owner.name}"></p>
             <!--/*@thymesVar id="publicationsAmount" type="java.lang.Integer"*/-->
             <p th:text="'Publications: ' + ${publicationsAmount}"></p>
+            <p><a th:href="@{/public/unsubscribe/{publicId}(publicId=${public.id})}">Unsubscribe</a></p>
+            <!--TODO: 'unsubscribe' by AJAX-->
         </div>
 
         <!--/*@thymesVar id="publications" type="java.lang.Iterable"*/-->

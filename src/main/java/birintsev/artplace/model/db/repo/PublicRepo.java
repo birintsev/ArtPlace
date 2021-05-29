@@ -86,4 +86,11 @@ extends JpaRepository<Public, UUID> {
         Public subscribedPublic,
         SubscriptionTariff tariff
     );
+
+    @Query(
+        value = "select case when (count(ps) > 0) then true else false end "
+            + "from PublicSubscription ps "
+            + "where ps.user = :user and ps.subscribedPublic = :aPublic"
+    )
+    boolean isSubscriber(User user, Public aPublic);
 }

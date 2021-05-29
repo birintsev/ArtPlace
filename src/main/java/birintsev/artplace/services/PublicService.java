@@ -27,4 +27,15 @@ public interface PublicService {
      * TODO: javadoc
      * */
     int getTotalSubscribersAmount(Public aPublic);
+
+    /**
+     * TODO: javadoc
+     * */
+    boolean isSubscriber(User user, Public aPublic);
+
+    /**
+     * TODO: javadoc
+     *
+     * */
+    void unsubscribe(User user, Public subscribedPublic);
 }
