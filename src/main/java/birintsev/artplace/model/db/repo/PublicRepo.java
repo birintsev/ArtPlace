@@ -1,6 +1,7 @@
 package birintsev.artplace.model.db.repo;
 
 import birintsev.artplace.model.db.Public;
+import birintsev.artplace.model.db.SubscriptionTariff;
 import birintsev.artplace.model.db.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,4 +71,19 @@ extends JpaRepository<Public, UUID> {
             + "     p = :aPublic"
     )
     int getTotalSubscribersCount(Public aPublic);
+
+    /**
+     * @return all the current users who are subscribers
+     *         of the public by the tariff.
+     * */
+    @Query(
+        value = "select ps.user "
+            + "from PublicSubscription ps "
+            + "where ps.subscribedPublic = :subscribedPublic "
+            + "and ps.subscriptionTariff = :tariff"
+    )
+    Set<User> findSubscribersByPublicAndTariff(
+        Public subscribedPublic,
+        SubscriptionTariff tariff
+    );
 }

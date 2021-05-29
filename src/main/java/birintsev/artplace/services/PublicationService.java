@@ -50,6 +50,16 @@ public interface PublicationService {
     }
 
     /**
+    * Makes the {@link Publication} forever available
+     * for those {@link User users} who has paid for it
+     * (even after unsubscription from the {@link Public}
+     * the {@link Publication} belongs to).
+     *
+     * @param publication a publication to bind to paid subscribers
+     * */
+    void bindForPaidSubscribers(Publication publication);
+
+    /**
      * TODO: javadoc
      * */
     int getTotalPublicationsCount(Public aPublic);
